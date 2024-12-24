@@ -1,6 +1,6 @@
 from django.urls import path, include
-from CBV.views import book
+from CBV.views import BookView
 
 urlpatterns = [
-    path("book/", book),
+    path("book/", BookView.as_view()),
 ]

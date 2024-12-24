@@ -1,10 +1,10 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import HttpResponse
+from django.views import View
 
-# Create your views here.
 
+class BookView(View):
+    def get(self, request):
+        return HttpResponse("View Get 请求")
 
-def book(request):
-    if request.method == "GET":
-        return HttpResponse("get")
-    else:
-        return HttpResponse("others")
+    def post(self, request):
+        return HttpResponse("Post 方法 ")
