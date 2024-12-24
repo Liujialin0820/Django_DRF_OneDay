@@ -22,3 +22,16 @@ class BookView(APIView):
         #  序列化的过程就是 把book_list 里面的东西遍历 ,生成json结构的字典
         #  字典内容根据serializers里的处理
         return Response(serializer.data)
+
+    def post(self, request):
+        print(request.data)
+        # 数据反序列化
+        serializer = BookSerializers(data=request.data)
+        # 校验数据
+        if serializer.is_valid():
+            # 数据校验通过
+            Book.objects.create(**serializer.validated_data)
+            return Response(serializer.data)
+        # 校验失败
+        else:
+            return Response(serializer.errors)
