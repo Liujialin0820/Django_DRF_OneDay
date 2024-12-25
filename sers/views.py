@@ -11,6 +11,7 @@ from rest_framework.generics import GenericAPIView
 class BookSerializers(serializers.ModelSerializer):
     class Meta:
         model = Book
+        fields = "__all__"
 
 
 class BookView(GenericAPIView):
@@ -18,4 +19,13 @@ class BookView(GenericAPIView):
     serializer_class = BookSerializers
 
     def get(self, request):
-        self.get_serializer(instance=self.get_queryset(), many=True)
+        serializer = self.get_serializer(instance=self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
