@@ -13,7 +13,7 @@ from rest_framework.mixins import (
     UpdateModelMixin,
     DestroyModelMixin,
 )
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 
 class BookSerializers(serializers.ModelSerializer):
@@ -27,20 +27,6 @@ class BookView(ListCreateAPIView):
     serializer_class = BookSerializers
 
 
-class BookDetailView(
-    GenericAPIView,
-    RetrieveModelMixin,
-    UpdateModelMixin,
-    DestroyModelMixin,
-):
+class BookDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializers
-
-    def get(self, request, pk):
-        return self.retrieve(request, pk)
-
-    def put(self, request, pk):
-        return self.update(request, pk)
-
-    def delete(self, request, pk):
-        return self.destroy(request, pk)
