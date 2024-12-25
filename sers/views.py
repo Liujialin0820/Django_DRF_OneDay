@@ -7,20 +7,9 @@ from rest_framework import serializers
 from rest_framework.response import Response
 
 
-class BookSerializers(serializers.Serializer):
-    title = serializers.CharField(max_length=32)
-    price = serializers.IntegerField()
-    pub_date = serializers.DateField()
-
-    # serializer.save 调用的方法
-    def create(self, validated_data):
-        new_book = Book.objects.create(**self.validated_data)
-        return new_book
-
-    def update(self, instance, validated_data):
-        Book.objects.filter(pk=instance.id).update(**validated_data)
-        update_book = Book.objects.get(pk=instance.id)
-        return update_book
+class BookSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Book
 
 
 class BookView(APIView):
