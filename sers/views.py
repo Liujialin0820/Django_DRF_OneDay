@@ -17,6 +17,11 @@ class BookSerializers(serializers.Serializer):
         new_book = Book.objects.create(**self.validated_data)
         return new_book
 
+    def update(self, instance, validated_data):
+        Book.objects.filter(pk=instance.id).update(**validated_data)
+        update_book = Book.objects.get(pk=instance.id)
+        return update_book
+
 
 class BookView(APIView):
     def get(self, request):
@@ -57,9 +62,7 @@ class BookDetailView(APIView):
         serializer = BookSerializers(instance=update_book, data=request.data)
 
         if serializer.is_valid():
-            Book.objects.filter(pk=id).update(**serializer.validated_data)
-            update_book = Book.objects.get(pk=id)
-            serializer.instance = update_book
+            serializer.save()
             return Response(serializer.data)
 
         else:
