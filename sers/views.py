@@ -38,3 +38,17 @@ class BookDetailView(GenericAPIView):
     def get(self, request, pk):
         serializer = self.get_serializer(instance=self.get_object(), many=False)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        serializer = self.get_serializer(
+            instance=self.get_object(), data=request.data, many=False
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+    def delete(self, request, pk):
+        self.get_object().delete()
+        return Response()
