@@ -50,7 +50,20 @@ class BookDetailView(APIView):
         return Response(serializer.data)
 
     def put(self, request, id):
-        pass
+        # 获取提交的更新数据
+        data = request.data
+        # 构建序列化器对象
+        update_book = Book.objects.get(pk=id)
+        serializer = BookSerializers(instance=update_book, data=request.data)
+
+        if serializer.is_valid():
+            Book.objects.filter(pk=id).update(**serializer.validated_data)
+            update_book = Book.objects.get(pk=id)
+            serializer.instance = update_book
+            return Response(serializer.data)
+
+        else:
+            return Response(serializer.errors)
 
     def delete(self, request, id):
         pass
