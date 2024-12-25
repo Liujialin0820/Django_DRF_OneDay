@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "CBV",
     "sers",
+    "opt",
     "rest_framework",
 ]
 
