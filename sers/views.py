@@ -69,4 +69,5 @@ class BookDetailView(APIView):
             return Response(serializer.errors)
 
     def delete(self, request, id):
-        pass
+        Book.objects.get(pk=id).delete()
+        return Response()
