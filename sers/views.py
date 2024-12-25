@@ -12,6 +12,11 @@ class BookSerializers(serializers.Serializer):
     price = serializers.IntegerField()
     pub_date = serializers.DateField()
 
+    # serializer.save 调用的方法
+    def create(self, validated_data):
+        new_book = Book.objects.create(**self.validated_data)
+        return new_book
+
 
 class BookView(APIView):
     def get(self, request):
@@ -30,7 +35,8 @@ class BookView(APIView):
         # 校验数据
         if serializer.is_valid():
             # 数据校验通过
-            Book.objects.create(**serializer.validated_data)
+            # Book.objects.create(**serializer.validated_data)
+            serializer.save()
             return Response(serializer.data)
         # 校验失败
         else:
