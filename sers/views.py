@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin
 
 
 class BookSerializers(serializers.ModelSerializer):
@@ -14,13 +15,12 @@ class BookSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class BookView(GenericAPIView):
+class BookView(GenericAPIView, ListModelMixin):
     queryset = Book.objects.all()
     serializer_class = BookSerializers
 
     def get(self, request):
-        serializer = self.get_serializer(instance=self.get_queryset(), many=True)
-        return Response(serializer.data)
+        return self.list(request)
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
