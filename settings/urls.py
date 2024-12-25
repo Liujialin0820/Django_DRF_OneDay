@@ -15,9 +15,9 @@ urlpatterns = [
         "sers/book/(?P<pk>\d+)",
         views.BookView.as_view(
             {
-                "get": "get_object",
-                "update": "update_object",
-                "delete": "delete_object",
+                "get": "retrieve",
+                "put": "update",
+                "delete": "destroy",
             }
         ),
     ),

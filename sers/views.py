@@ -14,7 +14,7 @@ from rest_framework.mixins import (
     DestroyModelMixin,
 )
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.viewsets import ViewSet, GenericViewSet
+from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet
 
 
 class BookSerializers(serializers.ModelSerializer):
@@ -23,10 +23,6 @@ class BookSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class BookView(
-    GenericViewSet,
-    ListModelMixin,  # 增加list方法 get-->list
-    CreateModelMixin,  # 增加create方法 post-->create
-):
+class BookView(ModelViewSet):
     queryset = Book.objects.all()  # 和GenericAPIView 相关的
     serializer_class = BookSerializers  # 和GenericAPIView 相关的
