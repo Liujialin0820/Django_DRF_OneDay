@@ -29,3 +29,12 @@ class BookView(GenericAPIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
+
+
+class BookDetailView(GenericAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializers
+
+    def get(self, request, pk):
+        serializer = self.get_serializer(instance=self.get_object(), many=False)
+        return Response(serializer.data)

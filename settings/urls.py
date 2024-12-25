@@ -3,5 +3,5 @@ from sers import views
 
 urlpatterns = [
     path("sers/book/", views.BookView.as_view()),
-    # re_path("sers/book/(\d+)", views.BookDetailView.as_view()),
+    re_path("sers/book/(?P<pk>\d+)", views.BookDetailView.as_view()),
 ]
