@@ -41,3 +41,16 @@ class BookView(APIView):
         # 校验失败
         else:
             return Response(serializer.errors)
+
+
+class BookDetailView(APIView):
+    def get(self, request, id):
+        book = Book.objects.get(pk=id)
+        serializer = BookSerializers(instance=book, many=False)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        pass
+
+    def delete(self, request, id):
+        pass
