@@ -6,7 +6,13 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin
+from rest_framework.mixins import (
+    ListModelMixin,
+    CreateModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+)
 
 
 class BookSerializers(serializers.ModelSerializer):
@@ -26,24 +32,20 @@ class BookView(GenericAPIView, ListModelMixin, CreateModelMixin):
         return self.create(request)
 
 
-class BookDetailView(GenericAPIView):
+class BookDetailView(
+    GenericAPIView,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+):
     queryset = Book.objects.all()
     serializer_class = BookSerializers
 
     def get(self, request, pk):
-        serializer = self.get_serializer(instance=self.get_object(), many=False)
-        return Response(serializer.data)
+        return self.retrieve(request, pk)
 
     def put(self, request, pk):
-        serializer = self.get_serializer(
-            instance=self.get_object(), data=request.data, many=False
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors)
+        return self.update(request, pk)
 
     def delete(self, request, pk):
-        self.get_object().delete()
-        return Response()
+        return self.destroy()
