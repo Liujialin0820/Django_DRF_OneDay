@@ -6,8 +6,8 @@ urlpatterns = [
         "sers/book/",
         views.BookView.as_view(
             {
-                "get": "get_all",
-                "post": "add_object",
+                "get": "list",
+                "post": "create",
             }
         ),
     ),
